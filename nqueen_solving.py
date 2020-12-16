@@ -43,19 +43,32 @@ def solve_n_queen_small(size, board):
     line = size - 1
     while line > -1:
         for column in range(size - 1, -1, -1):
-            #si la ligne contient un 1
-            if 1 in board[line]:
+            #si la ligne contient un 1 et que on la parcourt, cela signifie que le 1 est mal placé alors on le retire et on en place 1 à la position suivante
+            while 1 in board[line]:
                 column = board[line].index(1) - 1
                 board[line][column + 1] = 0
+                if column == -1:
+                    line = line + 1
+                    column = size - 1
 
             board[line][column] = 1
             line = line - 1
-            if not can_t_attack(size, board):                 
-                board[line][column] = 0
-                line = line + 1
             
-            if column == 0 and 1 not in board[line]:
-                line = line - 1
+            #### debug
+            print_board(8, board)
+            print('')
+            time.sleep(0.2)
+            #### debug
+            
+            if not can_t_attack(size, board):
+                line = line + 1
+                #la ligne que j'ai changé par accident... et hop ça fonctionne comme par magie...
+                #board[line][column] = 0
+            else:
+                break
+            
+            # if column == 0 and 1 not in board[line]:
+            #     line = line + 1
 
     # stack = [[size - 1, size - 1]]
 
