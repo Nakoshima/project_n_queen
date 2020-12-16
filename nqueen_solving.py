@@ -41,7 +41,7 @@ def solve_n_queen_small(size, board):
         return board, False
     
     line = size - 1
-    while line > -1:
+    while not is_soluce(size, board)[0]:
         for column in range(size - 1, -1, -1):
             #si la ligne contient un 1 et que on la parcourt, cela signifie que le 1 est mal placé alors on le retire et on en place 1 à la position suivante
             while 1 in board[line]:
