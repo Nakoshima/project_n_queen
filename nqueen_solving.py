@@ -8,31 +8,33 @@ def print_board(size, board):
         
 def can_t_attack(size, board):
     for line in range(size):
-        for column in range(size):
-            if board[line][column] == 1:
-                for i in range(size):
-                    if board[line][i] == 1 and i != column:
-                        return False
-    
-                    if board[i][column] == 1 and i != line:
-                        return False
+        # compter directement le nb de reine sur une ligne en une fois au lieu de boucler
+        nbQueen = board[line].count(1)
+        if nbQueen > 1:
+            return False
+        
+        if nbQueen == 1:
+            # obtenir directement la colonne de la reine lieu de boucler puisqu'on sait qu'il n'y a qu'une reine sur la ligne ici
+            column = board[line].index(1)
+            
+            # on n'a besoin de check qu'en dessous de la reine actuelle
+            for i in range(line + 1, size):
+                # bas
+                if board[i][column] == 1:
+                    return False
 
-                    #diag bas droite
-                    if line + i + 1 < size and column + i + 1 < size and board[line + i + 1][column + i + 1] == 1:
-                        return False
+                #diag bas droite
+                if column + i - line < size and board[i][column + i - line] == 1:
+                    return False
 
-                    #diag bas gauche
-                    if line + i + 1 < size and column - i - 1 >= 0 and board[line + i + 1][column - i - 1] == 1:
-                        return False
+                #diag bas gauche
+                if column - (i - line) >= 0 and board[i][column - (i - line)] == 1:
+                    return False    
     return True
     
 def is_soluce(size, board):
-    nbQueen = 0
-     
-    for line in range(size):
-        for column in range(size):
-            if board[line][column] == 1:
-                nbQueen += 1
+    # compte le nombre de reine dans tout le board
+    nbQueen = sum([i.count(1) for i in board])
 
     return can_t_attack(size, board) and nbQueen == size, nbQueen
 
