@@ -29,7 +29,6 @@ def can_t_attack(size, board):
     :returns: True if no queen can attack, False if not
     """
     for line in range(size):
-<<<<<<< HEAD
         nb_queen = board[line].count(1)
 
         # If there is more than one queen on the line
@@ -54,40 +53,11 @@ def can_t_attack(size, board):
                 # Bottom left diagonal
                 if column - (i - line) >= 0 and board[i][column - (i - line)] == 1:
                     return False
-=======
-        # compter directement le nb de reine sur une ligne en une fois au lieu de boucler
-        nbQueen = board[line].count(1)
-        if nbQueen > 1:
-            return False
-        
-        if nbQueen == 1:
-            # obtenir directement la colonne de la reine lieu de boucler puisqu'on sait qu'il n'y a qu'une reine sur la ligne ici
-            column = board[line].index(1)
-            
-            # on n'a besoin de check qu'en dessous de la reine actuelle
-            for i in range(line + 1, size):
-                # bas
-                if board[i][column] == 1:
-                    return False
-
-                #diag bas droite
-                if column + i - line < size and board[i][column + i - line] == 1:
-                    return False
-
-                #diag bas gauche
-                if column - (i - line) >= 0 and board[i][column - (i - line)] == 1:
-                    return False    
->>>>>>> a457638cfc961ec4c702498d2ee911ae8a2bb7bc
     return True
 
 def is_soluce(size, board):
-<<<<<<< HEAD
     """
     Checks if a board is a solution to the n queens problem
-=======
-    # compte le nombre de reine dans tout le board
-    nbQueen = sum([i.count(1) for i in board])
->>>>>>> a457638cfc961ec4c702498d2ee911ae8a2bb7bc
 
     :param size: the size of the chessboard
     :param board: the chessboard
@@ -111,15 +81,11 @@ def solve_n_queen_small(size, board):
 
     # We start placing the queens from the bottom right
     line = size - 1
-<<<<<<< HEAD
 
     # The condition means the algorithm has gone through all the lines
     # and all the queens are safely placed
     while line > -1:
         # From right to left
-=======
-    while not is_soluce(size, board)[0]:
->>>>>>> a457638cfc961ec4c702498d2ee911ae8a2bb7bc
         for column in range(size - 1, -1, -1):
             # If the current line contains a queen
             # that means it is not the first iteration and that a queen can attack
