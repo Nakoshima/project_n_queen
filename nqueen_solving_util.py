@@ -99,7 +99,7 @@ def initial_state(size):
     Gets a random initial state of the board
     with one queen per column and per line
     :param size: the size of the chessboard
-    :returns: Array with the queens' position
+    :returns: an 1D array with the queens' position
     """
     # Array containing the position of the queens
     # The indexes correspond to the board's lines
@@ -111,7 +111,7 @@ def initial_state(size):
 def fill_board(queens):
     """
     Fills the chessboard with queens
-    :param queens: an array containing the position of each queens
+    :param queens: an 1D array containing the position of each queens
     :returns: the fill board
     """
     board = [[0 for x in enumerate(queens)] for y in enumerate(queens)]
@@ -119,27 +119,34 @@ def fill_board(queens):
         board[row][col] = 1
     return board
 
-def calculate_heuristic(size, board):
+def calculate_heuristic(queens):
     """
     Calculates the heuristic of a chessboard
     (the number of possible direct and indirect attacks)
-    :param size: the size of the chessboard
-    :param board: the chessboard
+    where the queens are placed on different rows and columns
+    :param queens: an 1D array containing the position of each queens
     :returns: the number of possible attacks
     """
     heuristic = 0
-    for line in range(size):
-        # There is only one queen on the current line so we can get its position on the column
-        column = board[line].index(1)
-
-        # Only need to check the diagonals under the current queen
-        # because the queens positions are initialized on different rows and columns
-        for i in range(line + 1, size):
-            # Bottom right diagonal
-            if column + i - line < size and board[i][column + i - line] == 1:
-                heuristic += 1
-
-            # Bottom left diagonal
-            if column - (i - line) >= 0 and board[i][column - (i - line)] == 1:
+    # For each queen except the last one,
+    # checks if an attack to the next queens is possible
+    for row in range(len(queens) - 1):
+        for next_row in range(row + 1, len(queens)):
+            # An attack is possible only if two queens are on the same diagonal,
+            # that is to say, if the difference between their rows is equal to
+            # the difference between their columns
+            if abs(row - next_row) == abs(queens[row] - queens[next_row]):
                 heuristic += 1
     return heuristic
+
+def is_attacked(queens, index):
+    """
+    Checks if a queen is attacked by another one
+    :param queens: an 1D array containing the position of each queens
+    :param index: the index (also row) of the queen in the array queens
+    """
+    for row, col in enumerate(queens):
+        if index != row:
+            if abs(index - row) == abs(queens[index] - col):
+                return True
+    return False
