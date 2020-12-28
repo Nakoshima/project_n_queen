@@ -1,7 +1,6 @@
 """
 N queens problem solver
 """
-import time
 import copy
 import random
 import nqueen_solving_util as util
@@ -76,40 +75,18 @@ def solve_n_queen_big(size, board):
     :returns: the board and True if a solution is found, False if not
     """
     current_queens = util.initial_state(size)
-    board = util.fill_board(current_queens)
 
-    while util.calculate_heuristic(size, board) != 0:
+    while util.calculate_heuristic(current_queens) != 0:
         # Chooses a random child board
         new_queens = copy.deepcopy(current_queens)
         index1 = random.randint(0, size - 1)
         index2 = random.randint(0, size - 1)
-        new_queens[index1], new_queens[index2] = new_queens[index2], new_queens[index1]
 
-        new_board = util.fill_board(new_queens)
-
-        if util.calculate_heuristic(size, board) >= util.calculate_heuristic(size, new_board):
-            board = new_board
-            current_queens = new_queens
+        # Temporarily swaps the queens if one of them is attacked
+        if util.is_attacked(current_queens, index1) or util.is_attacked(current_queens, index2):
+            new_queens[index1], new_queens[index2] = new_queens[index2], new_queens[index1]
+            # Definitely swaps the queens if the new heuristic is lower than the current one
+            if util.calculate_heuristic(new_queens) <= util.calculate_heuristic(current_queens):
+                current_queens = new_queens
+    board = util.fill_board(current_queens)
     return board, True
-
-
-BOARD_SIZE = 12
-
-t1 = time.time()
-test_board = [[0 for x in range(BOARD_SIZE)] for y in range(BOARD_SIZE)]
-#board_soluce, found = solve_n_queen_big(BOARD_SIZE, test_board)
-#board_soluce, found = solve_n_queen_small(BOARD_SIZE, test_board)
-
-test_boards = solve_n_queen_all_soluce(BOARD_SIZE, test_board)
-
-t2 = time.time()
-
-# for b in test_boards:
-#     print(test_boards.index(b))
-#     print_board(BOARD_SIZE, b)
-#     print('')
-
-
-#print(board_soluce)
-#print_board(BOARD_SIZE, board_soluce)
-print(f"\nTest of size {BOARD_SIZE} took {t2-t1} seconds to be solved")
