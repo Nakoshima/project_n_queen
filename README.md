@@ -6,8 +6,8 @@ Monica Huynh (Nakoshima)
 Viviane Qian (HocusPocusCitrus)
 
 ## Technology
-Python 3.8.6 (32-bit)
-pytest
+Python 3.8.6 (32-bit)  
+pytest  
 Tested on Intel(R) Core(TM) i5-7400 CPU @ 3.00GHz 4 cores
 
 ## Installation
@@ -15,7 +15,7 @@ Tested on Intel(R) Core(TM) i5-7400 CPU @ 3.00GHz 4 cores
 Use `git clone https://github.com/Nakoshima/project_n_queen.git` or download the code.
 
 ## Usage
-N queen problem solver
+N queen problem solver  
 Try it out with the test test_nqueen.py!
 
 ## Sources
