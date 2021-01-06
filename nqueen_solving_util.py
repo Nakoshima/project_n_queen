@@ -99,7 +99,7 @@ def initial_state(size):
     Gets a random initial state of the board
     with one queen per column and per line
     :param size: the size of the chessboard
-    :returns: an 1D array with the queens' position
+    :returns: Array with the queens' position
     """
     # Array containing the position of the queens
     # The indexes correspond to the board's lines
@@ -141,9 +141,8 @@ def calculate_heuristic(queens):
 
 def is_attacked(queens, index):
     """
-    Checks if a queen is attacked by another one
+    Checks if a queen is attacked by another one on the diagonals
     :param queens: an 1D array containing the position of each queens
-    :param index: the index (also row) of the queen in the array queens
     """
     for row, col in enumerate(queens):
         if index != row:
