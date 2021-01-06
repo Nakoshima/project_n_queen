@@ -18,12 +18,21 @@ def print_board(size, board):
         board_display += '\n'
     print(board_display, end = '')
 
+def can_t_attack(size, board):
+    """
+    Checks if no queen can attack another
+    :param size: the size of the chessboard
+    :param board: the chessboard
+    :returns: True if no queen can attack, False if not
+    """
+    return util.can_t_attack(size, board)
+
 def is_soluce(size, board):
     """
     Checks if a board is a solution to the n queens problem
     :param size: the size of the chessboard
     :param board: the chessboard
-    :returns: True if the board is a solution, False if not and the number of the queens
+    :returns: True if the board is a solution, False if not and the number queens
     """
     # Counts the number of queens on the board
     nb_queen = sum([i.count(1) for i in board])
@@ -46,7 +55,6 @@ def solve_n_queen_small(size, board):
     # We start placing the queens from the bottom right
     line = size - 1
 
-    # Calls the backtracking algorithm
     return util.backtrack_n_queen(size, board, line), True
 
 def solve_n_queen_all_soluce(size, board):
@@ -69,24 +77,26 @@ def solve_n_queen_big(size, board):
     """
     Solves big sized n queens problems by using
     based on the simulated annealing search
-    Reasonable resolution time up to size = 150 (~1 min 30 s)
+    Reasonable resolution time up to size = 200 (~1 min 30 s)
     :param size: the size of the chessboard
     :param board: the chessboard
     :returns: the board and True if a solution is found, False if not
     """
     current_queens = util.initial_state(size)
 
-    while util.calculate_heuristic(current_queens) != 0:
+    current_heuristic = util.calculate_heuristic(current_queens)
+
+    while current_heuristic != 0:
         # Chooses a random child board
         new_queens = copy.deepcopy(current_queens)
-        index1 = random.randint(0, size - 1)
-        index2 = random.randint(0, size - 1)
+        index1, index2 = random.randint(0, size - 1), random.randint(0, size - 1)
 
         # Temporarily swaps the queens if one of them is attacked
         if util.is_attacked(current_queens, index1) or util.is_attacked(current_queens, index2):
             new_queens[index1], new_queens[index2] = new_queens[index2], new_queens[index1]
             # Definitely swaps the queens if the new heuristic is lower than the current one
-            if util.calculate_heuristic(new_queens) <= util.calculate_heuristic(current_queens):
+            if util.calculate_heuristic(new_queens) <= current_heuristic:
                 current_queens = new_queens
+        current_heuristic = util.calculate_heuristic(current_queens)
     board = util.fill_board(current_queens)
     return board, True
