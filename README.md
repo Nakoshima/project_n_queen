@@ -2,7 +2,7 @@
 school project - 2nd year DUT Informatique
 
 ## Authors
-Monica Huynh (Nakoshima)
+Monica Huynh (Nakoshima)  
 Viviane Qian (HocusPocusCitrus)
 
 ## Technology
